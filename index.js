@@ -47,18 +47,25 @@ app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "index.html"))
 })
 
-io.on("connection", async (socket) => {
-	await update()
+io.on("connection", (socket) => {
+	update()
 })
 
 watcher.on("change", async () => {
-	await update()
+	update()
 })
 
 server.listen(PORT, () => {
 	console.log(
 		"\n ",
 		chalk.bgGreen.black.bold(" Serving at "),
-		chalk.cyan("http://localhost:") + chalk.cyan.bold(`${PORT}`)
+		chalk.cyan("http://localhost:") + chalk.cyan.bold(`${PORT}`),
+		"\n"
 	)
 })
+
+// help
+// port
+// highlight
+// markdownit-checkbox
+// markdownit-emoji
