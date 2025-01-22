@@ -10,15 +10,19 @@ const minimist = require("minimist")
 const path = require("path")
 const { Server } = require("socket.io")
 
+const printError = (err) => {
+	console.log(
+		"\n",
+		chalk.bgRedBright.bold.black(" ERROR "),
+		err,
+		"\n"
+	)
+}
+
 let args = minimist(process.argv.slice(2))
 
 if (args["port"] == true) {
-	console.log(
-		"\n",
-		chalk.bgRedBright.bold.black(" ERROR ")
-		,"Missing port number",
-		"\n"
-	)
+	printError("Missing port number")
 
 	process.exit(1)
 }
@@ -26,12 +30,7 @@ if (args["port"] == true) {
 const PORT = args["port"] || 7000
 
 if (args["_"].length > 1) {
-	console.log(
-		"\n",
-		chalk.bgRedBright.bold.black(" ERROR ")
-		,"More than one file given",
-		"\n"
-	)
+	printError("More than one file given")
 
 	process.exit(1)
 }
@@ -72,26 +71,32 @@ watcher.on("change", async () => {
 	update()
 })
 
-server.listen(PORT, () => {
-	console.log(
-		"\n ",
-		chalk.bgGreen.black.bold(" Serving at "),
-		chalk.cyan("http://localhost:") + chalk.cyan.bold(`${PORT}`),
-		"\n"
-	)
-}).on("error", (err) => {
+try {
+	server.listen(PORT, () => {
 
-	if (err.errno === -13) {
 		console.log(
-			"\n",
-			chalk.bgRedBright.bold.black(" ERROR ")
-			,"Permission denied",
+			"\n ",
+			chalk.bgGreen.black.bold(" Serving at "),
+			chalk.cyan("http://localhost:") + chalk.cyan.bold(`${PORT}`),
 			"\n"
 		)
+
+	}).on("error", (err) => {
+
+		if (err.errno === -13) {
+			printError("Persmission denied")
+		}
+
+		process.exit(1)
+	})
+
+} catch(err) {
+	if (err.code === "ERR_SOCKET_BAD_PORT") {
+		printError("Invalid port number")
 	}
 
 	process.exit(1)
-})
+}
 
 // help
 // port
