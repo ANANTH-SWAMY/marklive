@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "bin": {
-    "livemd": "./index.js"
+    "marklive": "./index.js"
   },
   "scripts": {},
   "keywords": [],
