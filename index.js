@@ -36,7 +36,7 @@ const io = new Server(server)
 
 const watcher = chokidar.watch(filepath)
 
-const update = async () => {
+const update = () => {
 	let file = fs.readFileSync(filepath).toString()
 	io.emit("update", markdownit().render(file))
 }
