@@ -5,12 +5,11 @@ body{
 	flex-direction: column;
 	align-items: center;
 	font-family: 'Inter', sans-serif;
-	font-size: 0.9rem;
 	margin: 0px;
 }
 
 #root{
-	width: 90%;
+	width: 45%;
 }
 
 img{
@@ -27,10 +26,6 @@ hr {
 
 code{
 	font-family: 'JetBrains Mono', monospace;
-}
-
-.post{
-	padding: 1rem 0px;
 }
 
 blockquote {
@@ -51,10 +46,4 @@ th,td{
 
 tbody tr:nth-child(odd) {
 	background: #eee;
-}
-
-@media (min-width: 1024px){
-	#root{
-		width: 45%;
-	}
 }
