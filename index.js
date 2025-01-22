@@ -99,7 +99,6 @@ try {
 }
 
 // help
-// highlight
 // markdownit-checkbox
 // markdownit-emoji
 // pdf

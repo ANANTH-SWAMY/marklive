@@ -8,4 +8,5 @@ socket.on("title", (msg) => {
 
 socket.on("update", (msg) => {
 	root.innerHTML = msg
+	hljs.highlightAll()
 })
