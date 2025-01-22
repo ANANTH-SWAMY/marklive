@@ -9,14 +9,7 @@ body{
 	margin: 0px;
 }
 
-nav{
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-.root{
+#root{
 	width: 90%;
 }
 
@@ -48,11 +41,12 @@ blockquote {
 
 table{
 	border-collapse: collapse;
-	width: 100%;
+	border-color: #ccc;
 }
 
 th,td{
-	border: 1px solid transparent;
+	border: 1px solid #ccc;
+	padding: 6px 13px;
 }
 
 tbody tr:nth-child(odd) {
@@ -60,7 +54,7 @@ tbody tr:nth-child(odd) {
 }
 
 @media (min-width: 1024px){
-	.root{
+	#root{
 		width: 45%;
 	}
 }

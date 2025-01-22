@@ -84,7 +84,7 @@ try {
 	}).on("error", (err) => {
 
 		if (err.errno === -13) {
-			printError("Persmission denied")
+			printError("Permission denied")
 		}
 
 		process.exit(1)
@@ -99,7 +99,6 @@ try {
 }
 
 // help
-// port
 // highlight
 // markdownit-checkbox
 // markdownit-emoji
