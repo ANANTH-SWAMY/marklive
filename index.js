@@ -8,14 +8,19 @@ const http = require("http")
 const markdownit = require("markdown-it")
 const minimist = require("minimist")
 const path = require("path")
-const socketio = require("socket.io")
+const { Server } = require("socket.io")
 
 let args = minimist(process.argv.slice(2))
 
 const PORT = 7000
 
 if (args["_"].length > 1) {
-	console.log(chalk.red("More than one file given"))
+	console.log(
+		"\n",
+		chalk.bgRedBright.bold.black(" ERR ")
+		,"More than one file given",
+		"\n"
+	)
 	process.exit(1)
 }
 
@@ -27,18 +32,23 @@ const filepath = path.join(__dirname, args["_"][0])
 
 const app = express()
 const server = http.createServer(app)
-const socket = socketio(server)
+const io = new Server(server)
 
 const watcher = chokidar.watch(filepath)
 
 const update = async () => {
 	let file = fs.readFileSync(filepath).toString()
-	console.log(markdownit().render(file))
+	io.emit("update", markdownit().render(file))
 }
 
 app.use(express.static(path.join(__dirname, 'public')))
+
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "index.html"))
+})
+
+io.on("connection", async (socket) => {
+	await update()
 })
 
 watcher.on("change", async () => {
