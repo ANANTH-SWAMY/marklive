@@ -36,6 +36,10 @@ const io = new Server(server)
 
 const watcher = chokidar.watch(filepath)
 
+const updateTitle = () => {
+	io.emit("title", args["_"][0])
+}
+
 const update = () => {
 	let file = fs.readFileSync(filepath).toString()
 	io.emit("update", markdownit().render(file))
@@ -48,6 +52,7 @@ app.get("/", (req, res) => {
 })
 
 io.on("connection", (socket) => {
+	updateTitle()
 	update()
 })
 
@@ -65,6 +70,7 @@ server.listen(PORT, () => {
 })
 
 // help
+// title
 // port
 // highlight
 // markdownit-checkbox
