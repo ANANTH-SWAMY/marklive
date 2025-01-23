@@ -27,8 +27,18 @@ const printHelp = () => {
 	process.exit(0)
 }
 
+const printServing = (port) => {
+	console.log(
+		"\n ",
+		colors.bgCyan.black.bold(" Serving at "),
+		colors.cyan("http://localhost:") + colors.cyan.bold(`${port}`),
+		"\n"
+	)
+}
+
 
 module.exports = {
 	printError,
-	printHelp
+	printHelp,
+	printServing,
 }

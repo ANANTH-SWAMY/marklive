@@ -20,7 +20,7 @@ const update = (filepath) => {
 	io.emit("update", md.render(file))
 }
 
-const fileServer = (filepath) => {
+const fileServer = (filepath, pdf) => {
 	app.use(express.static(path.join(__dirname, "..", "public")))
 	app.use(express.static(path.dirname(path.resolve(filepath))))
 
@@ -37,12 +37,9 @@ const fileServer = (filepath) => {
 		try {
 			server.listen(port, () => {
 
-				console.log(
-					"\n ",
-					colors.bgCyan.black.bold(" Serving at "),
-					colors.cyan("http://localhost:") + colors.cyan.bold(`${port}`),
-					"\n"
-				)
+				if (!pdf) {
+					prints.printServing(port)
+				}
 
 			}).on("error", (err) => {
 
