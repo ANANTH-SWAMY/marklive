@@ -6,6 +6,7 @@ const express = require("express")
 const fs = require("fs")
 const http = require("http")
 const markdownit = require("markdown-it")
+const markdownitCheckbox = require("markdown-it-task-checkbox")
 const minimist = require("minimist")
 const path = require("path")
 const { Server } = require("socket.io")
@@ -47,13 +48,15 @@ const io = new Server(server)
 
 const watcher = chokidar.watch(filepath)
 
+md = markdownit().use(markdownitCheckbox)
+
 const updateTitle = () => {
 	io.emit("title", args["_"][0])
 }
 
 const update = () => {
 	let file = fs.readFileSync(filepath).toString()
-	io.emit("update", markdownit().render(file))
+	io.emit("update", md.render(file))
 }
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -99,6 +102,5 @@ try {
 }
 
 // help
-// markdownit-checkbox
 // markdownit-emoji
 // pdf

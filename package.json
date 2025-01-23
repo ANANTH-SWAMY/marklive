@@ -16,6 +16,7 @@
     "chokidar": "^4.0.3",
     "express": "^4.21.2",
     "markdown-it": "^14.1.0",
+    "markdown-it-task-checkbox": "^1.0.6",
     "minimist": "^1.2.8",
     "socket.io": "^4.8.1"
   }
