@@ -1,52 +1,21 @@
 #! /usr/bin/env node
 
 const chalk = require("chalk")
+const colors = require("./utils/colors")
 const chokidar = require("chokidar")
-const express = require("express")
 const fs = require("fs")
-const http = require("http")
-const markdownit = require("markdown-it")
-const markdownitCheckbox = require("markdown-it-task-checkbox")
 const minimist = require("minimist")
-const path = require("path")
-const { Server } = require("socket.io")
-
-const printError = (err) => {
-	console.log(
-		"\n",
-		chalk.bgRedBright.bold.black(" ERROR "),
-		err,
-		"\n"
-	)
-}
-
-const cyan = chalk.hex("#3eefcf")
-const bgCyan = chalk.bgHex("#3eefcf")
-
-const printHelp = () => {
-	const help = `
- ${bgCyan.black.bold(" marklive ")} Previews markdown and watches for changes.
-
- Usage:
-    ${cyan.bold("marklive")} ${chalk.grey("<PATH> [OPTIONS]")}
-
- Options:
-	${cyan.bold("--help")}          ${chalk.grey("Help for marklive.")}
-	${cyan.bold("--port PORT")}     ${chalk.grey("Specifies the port to use, else, port")} ${cyan("7000")} ${chalk.grey("is used.")}
-	`
-	console.log(help)
-
-	process.exit(0)
-}
+const prints = require("./utils/prints")
+const server = require("./utils/server")
 
 let args = minimist(process.argv.slice(2))
 
 if (args["help"]) {
-	printHelp()
+	prints.printHelp()
 }
 
 if (args["port"] === true) {
-	printError("Missing port number")
+	prints.printError("Missing port number")
 
 	process.exit(1)
 }
@@ -54,80 +23,27 @@ if (args["port"] === true) {
 const PORT = args["port"] || 7000
 
 if (args["_"].length > 1) {
-	printError("More than one file given")
+	prints.printError("More than one file given")
 
 	process.exit(1)
 }
 
 if (args["_"].length === 0) {
-	printHelp()
+	prints.printHelp()
 }
 
 const filepath = args["_"][0]
 
 if (!fs.statSync(filepath).isFile()) {
-	printError("Not a file")
+	prints.printError("Not a file")
 	process.exit(1)
 }
-
-const app = express()
-const server = http.createServer(app)
-const io = new Server(server)
 
 const watcher = chokidar.watch(filepath)
 
-md = markdownit().use(markdownitCheckbox)
-
-const updateTitle = () => {
-	io.emit("title", path.basename(filepath))
-}
-
-const update = () => {
-	let file = fs.readFileSync(filepath).toString()
-	io.emit("update", md.render(file))
-}
-
-app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.static(path.dirname(path.resolve(filepath))))
-
-app.get("/", (req, res) => {
-	res.sendFile(path.join(__dirname, "index.html"))
-})
-
-io.on("connection", (socket) => {
-	updateTitle()
-	update()
-})
-
 watcher.on("change", async () => {
-	update()
+	server.update(filepath)
 })
 
-try {
-	server.listen(PORT, () => {
-
-		console.log(
-			"\n ",
-			bgCyan.black.bold(" Serving at "),
-			cyan("http://localhost:") + cyan.bold(`${PORT}`),
-			"\n"
-		)
-
-	}).on("error", (err) => {
-
-		if (err.errno === -13) {
-			printError("Permission denied")
-		}
-
-		process.exit(1)
-	})
-
-} catch(err) {
-	if (err.code === "ERR_SOCKET_BAD_PORT") {
-		printError("Invalid port number")
-	}
-
-	process.exit(1)
-}
-
-// pdf
+let newserver = server.fileServer(filepath)
+newserver.listen(PORT)
