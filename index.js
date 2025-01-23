@@ -20,21 +20,25 @@ const printError = (err) => {
 	)
 }
 
-const cyan = chalk.hex("#3bd9c2")
-const bgCyan = chalk.bgHex("#3bd9c2")
+const cyan = chalk.hex("#3eefcf")
+const bgCyan = chalk.bgHex("#3eefcf")
 
 const printHelp = () => {
 	const help = `
  ${bgCyan.black(" marklive ")} Previews markdown and watches for changes.
 
  Usage:
-    ${cyan.bold("marklive")} <PATH> [OPTIONS]
+    ${cyan.bold("marklive")} ${chalk.grey("<PATH> [OPTIONS]")}
 
+ Options:
+	${cyan.bold("--help")}          ${chalk.grey("Help for marklive.")}
+	${cyan.bold("--port PORT")}     ${chalk.grey("Specifies the port to use, else, port")} ${cyan("7000")} ${chalk.grey("is used.")}
 	`
 	console.log(help)
 	process.exit()
 }
 
+printHelp()
 
 let args = minimist(process.argv.slice(2))
 
