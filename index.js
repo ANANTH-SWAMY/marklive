@@ -25,7 +25,7 @@ const bgCyan = chalk.bgHex("#3eefcf")
 
 const printHelp = () => {
 	const help = `
- ${bgCyan.black(" marklive ")} Previews markdown and watches for changes.
+ ${bgCyan.black.bold(" marklive ")} Previews markdown and watches for changes.
 
  Usage:
     ${cyan.bold("marklive")} ${chalk.grey("<PATH> [OPTIONS]")}
@@ -35,14 +35,17 @@ const printHelp = () => {
 	${cyan.bold("--port PORT")}     ${chalk.grey("Specifies the port to use, else, port")} ${cyan("7000")} ${chalk.grey("is used.")}
 	`
 	console.log(help)
-	process.exit()
-}
 
-printHelp()
+	process.exit(0)
+}
 
 let args = minimist(process.argv.slice(2))
 
-if (args["port"] == true) {
+if (args["help"]) {
+	printHelp()
+}
+
+if (args["port"] === true) {
 	printError("Missing port number")
 
 	process.exit(1)
@@ -57,10 +60,15 @@ if (args["_"].length > 1) {
 }
 
 if (args["_"].length === 0) {
-	process.exit(1)
+	printHelp()
 }
 
-const filepath = path.join(__dirname, args["_"][0])
+const filepath = args["_"][0]
+
+if (!fs.statSync(filepath).isFile()) {
+	printError("Not a file")
+	process.exit(1)
+}
 
 const app = express()
 const server = http.createServer(app)
@@ -71,7 +79,7 @@ const watcher = chokidar.watch(filepath)
 md = markdownit().use(markdownitCheckbox)
 
 const updateTitle = () => {
-	io.emit("title", args["_"][0])
+	io.emit("title", path.basename(filepath))
 }
 
 const update = () => {
@@ -80,6 +88,7 @@ const update = () => {
 }
 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.dirname(path.resolve(filepath))))
 
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "index.html"))
@@ -121,5 +130,4 @@ try {
 	process.exit(1)
 }
 
-// help
 // pdf
