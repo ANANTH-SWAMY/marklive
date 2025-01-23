@@ -9,7 +9,9 @@ body{
 }
 
 #root{
-	width: 45%;
+	max-width: 61.25rem;
+	margin: 0 auto;
+	padding: 2.8rem;
 }
 
 img{
