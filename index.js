@@ -20,6 +20,22 @@ const printError = (err) => {
 	)
 }
 
+const cyan = chalk.hex("#3bd9c2")
+const bgCyan = chalk.bgHex("#3bd9c2")
+
+const printHelp = () => {
+	const help = `
+ ${bgCyan.black(" marklive ")} Previews markdown and watches for changes.
+
+ Usage:
+    ${cyan.bold("marklive")} <PATH> [OPTIONS]
+
+	`
+	console.log(help)
+	process.exit()
+}
+
+
 let args = minimist(process.argv.slice(2))
 
 if (args["port"] == true) {
@@ -79,8 +95,8 @@ try {
 
 		console.log(
 			"\n ",
-			chalk.bgGreen.black.bold(" Serving at "),
-			chalk.cyan("http://localhost:") + chalk.cyan.bold(`${PORT}`),
+			bgCyan.black.bold(" Serving at "),
+			cyan("http://localhost:") + cyan.bold(`${PORT}`),
 			"\n"
 		)
 
@@ -102,5 +118,4 @@ try {
 }
 
 // help
-// markdownit-emoji
 // pdf
