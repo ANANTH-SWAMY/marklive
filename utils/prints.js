@@ -19,8 +19,8 @@ const printHelp = () => {
     ${colors.cyan.bold("marklive")} ${chalk.grey("<PATH> [OPTIONS]")}
 
  Options:
-	${colors.cyan.bold("--help")}          ${chalk.grey("Help for marklive.")}
-	${colors.cyan.bold("--port PORT")}     ${chalk.grey("Specifies the port to use, else, port")} ${colors.cyan("7000")} ${chalk.grey("is used.")}
+    ${colors.cyan.bold("--help")}          ${chalk.grey("Help for marklive.")}
+    ${colors.cyan.bold("--port PORT")}     ${chalk.grey("Specifies the port to be used, else, port")} ${colors.cyan("7000")} ${chalk.grey("is used.")}
 	`
 	console.log(help)
 
