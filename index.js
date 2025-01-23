@@ -23,7 +23,7 @@ if (args["port"] === true) {
 const PORT = args["port"] || 7000
 
 if (args["_"].length > 1) {
-	prints.printError("More than one file given")
+	prints.printError("More than one file specified")
 
 	process.exit(1)
 }

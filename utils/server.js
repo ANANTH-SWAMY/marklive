@@ -11,6 +11,8 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server)
 
+app.use(express.static(path.join(__dirname, "..", "public")))
+
 const updateTitle = (filepath) => {
 	io.emit("title", path.basename(filepath))
 }
@@ -20,8 +22,7 @@ const update = (filepath) => {
 	io.emit("update", md.render(file))
 }
 
-const fileServer = (filepath, pdf) => {
-	app.use(express.static(path.join(__dirname, "..", "public")))
+const fileServer = (filepath) => {
 	app.use(express.static(path.dirname(path.resolve(filepath))))
 
 	app.get("/", (req, res) => {
@@ -37,9 +38,7 @@ const fileServer = (filepath, pdf) => {
 		try {
 			server.listen(port, () => {
 
-				if (!pdf) {
 					prints.printServing(port)
-				}
 
 			}).on("error", (err) => {
 
@@ -51,6 +50,7 @@ const fileServer = (filepath, pdf) => {
 			})
 
 		} catch(err) {
+
 			if (err.code === "ERR_SOCKET_BAD_PORT") {
 				prints.printError("Invalid port number")
 			}
