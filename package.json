@@ -1,16 +1,21 @@
 {
   "name": "marklive",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "index.js",
   "bin": {
-    "marklive": "./index.js"
+    "marklive": "index.js"
   },
   "scripts": {},
-  "keywords": [],
+  "keywords": [
+	  "markdown",
+	  "preview",
+	  "live-preview",
+	  "cli"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "description": "",
+  "description": "Previews markdown and watches for changes",
   "dependencies": {
     "chalk": "^4.1.2",
     "chokidar": "^4.0.3",
