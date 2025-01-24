@@ -55,6 +55,10 @@ const fileServer = (filepath) => {
 				prints.printError("Invalid port number")
 			}
 
+			if (err.code === "EADDRINUSE") {
+				prints.printError("Port in use")
+			}
+
 			process.exit(1)
 		}
 	}
