@@ -1,16 +1,16 @@
 {
   "name": "marklive",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "bin": {
     "marklive": "index.js"
   },
   "scripts": {},
   "keywords": [
-	  "markdown",
-	  "preview",
-	  "live-preview",
-	  "cli"
+    "markdown",
+    "preview",
+    "live-preview",
+    "cli"
   ],
   "author": "",
   "license": "ISC",

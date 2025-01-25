@@ -46,6 +46,10 @@ const fileServer = (filepath) => {
 					prints.printError("Permission denied")
 				}
 
+				if (err.errno === -98) {
+					prints.printError("Port in use")
+				}
+
 				process.exit(1)
 			})
 
@@ -53,10 +57,6 @@ const fileServer = (filepath) => {
 
 			if (err.code === "ERR_SOCKET_BAD_PORT") {
 				prints.printError("Invalid port number")
-			}
-
-			if (err.code === "EADDRINUSE") {
-				prints.printError("Port in use")
 			}
 
 			process.exit(1)
