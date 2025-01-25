@@ -11,8 +11,6 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server)
 
-app.use(express.static(path.join(__dirname, "..", "public")))
-
 const updateTitle = (filepath) => {
 	io.emit("title", path.basename(filepath))
 }
@@ -24,9 +22,10 @@ const update = (filepath) => {
 
 const fileServer = (filepath) => {
 	app.use(express.static(path.dirname(path.resolve(filepath))))
+	app.use(express.static(path.join(__dirname, "..", "public")))
 
 	app.get("/", (req, res) => {
-		res.sendFile(path.join(__dirname,  "..", "index.html"))
+		res.sendFile(path.join(__dirname, "..", "index.html"))
 	})
 
 	const listen = (port) => {

@@ -1,11 +1,11 @@
 @font-face{
 	font-family :'jetbrains';
-	src: url('/public/jetbrainsmono.ttf') format('truetype');
+	src: url('/jetbrainsmono.ttf') format('truetype');
 }
 
 @font-face{
 	font-family: 'inter';
-	src: url('/public/inter.ttf');
+	src: url('/inter.ttf');
 }
 
 body{
