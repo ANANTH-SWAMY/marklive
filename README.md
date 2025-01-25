@@ -2,14 +2,13 @@
 
 Previews markdown and watches for changes.
 
----
 
 ![preview](./preview/marklive.gif)
 
 ## Installation
 
 ```
-$ npm i marklive -g
+$ npm i -g marklive
 ```
 
 You might have to use `sudo` on linux.
