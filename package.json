@@ -1,6 +1,8 @@
 {
   "name": "marklive",
-  "version": "1.0.7",
+  "version": "1.0.8",
+  "description": "Previews markdown and watches for changes",
+  "author": "Ananth Krishnaswamy",
   "main": "index.js",
   "bin": {
     "marklive": "index.js"
@@ -12,10 +14,13 @@
     "live-preview",
     "cli"
   ],
-  "author": "",
+  "homepage": "https://github.com/ANANTH-SWAMY/marklive",
+  "repository": {
+	  "type": "git",
+	  "url": "https://github.com/ANANTH-SWAMY/marklive"
+  },
   "license": "ISC",
   "type": "commonjs",
-  "description": "Previews markdown and watches for changes",
   "dependencies": {
     "chalk": "^4.1.2",
     "chokidar": "^4.0.3",
