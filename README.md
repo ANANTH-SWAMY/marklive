@@ -3,7 +3,7 @@
 Previews markdown and watches for changes.
 
 
-![preview](./preview/marklive.gif)
+![preview](https://raw.githubusercontent.com/ANANTH-SWAMY/marklive/refs/heads/master/preview/marklive.gif)
 
 ## Installation
 
