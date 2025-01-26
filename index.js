@@ -39,7 +39,10 @@ if (!fs.statSync(filepath).isFile()) {
 	process.exit(1)
 }
 
-const watcher = chokidar.watch(filepath)
+const watcher = chokidar.watch(filepath, {
+	awaitWriteFinish: false,
+	interval: 50,
+})
 
 watcher.on("change", async () => {
 	server.update(filepath)
