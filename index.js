@@ -41,11 +41,16 @@ if (!fs.statSync(filepath).isFile()) {
 
 const watcher = chokidar.watch(filepath, {
 	awaitWriteFinish: false,
+	usePolling: true,
 	interval: 50,
 })
 
-watcher.on("change", async () => {
+watcher.on("change", () => {
 	server.update(filepath)
+})
+
+watcher.on("error", (err) => {
+	console.log(err)
 })
 
 let newserver = server.fileServer(filepath)
