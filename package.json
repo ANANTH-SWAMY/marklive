@@ -1,6 +1,6 @@
 {
   "name": "marklive",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Previews markdown and watches for changes",
   "author": "Ananth Krishnaswamy",
   "main": "index.js",
