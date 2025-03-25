@@ -9,6 +9,7 @@
 }
 
 body{
+	-webkit-print-color-adjust: exact;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
