@@ -4,7 +4,7 @@ const colors = require("./colors")
 const printError = (err) => {
 	console.log(
 		"\n",
-		chalk.bgRedBright.bold.black(" ERROR "),
+		chalk.bgRedBright.hex("#000000").bold(" ERROR "),
 		err,
 		"\n"
 	)
@@ -13,7 +13,7 @@ const printError = (err) => {
 
 const printHelp = () => {
 	const help = `
- ${colors.bgCyan.black.bold(" marklive ")} Previews markdown and watches for changes.
+ ${colors.bgCyan.hex("#000000").bold(" marklive ")} Previews markdown and watches for changes.
 
  Usage:
     ${colors.cyan.bold("marklive")} ${chalk.grey("<PATH> [OPTIONS]")}
