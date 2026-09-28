@@ -30,30 +30,7 @@ const fileServer = (filepath) => {
 		res.sendFile(path.join(__dirname, "..", "index.html"))
 	})
 
-	app.get("*", (req, res, next) => {
-		const requestedPath = decodeURIComponent(req.path)
-		const resolvedRequestedPath = path.resolve(markdownDir, `.${requestedPath}`)
-		const allowedPathPrefix = `${markdownDir}${path.sep}`
-
-		if (
-			resolvedRequestedPath !== markdownDir &&
-			!resolvedRequestedPath.startsWith(allowedPathPrefix)
-		) {
-			return res.status(403).end()
-		}
-
-		res.sendFile(resolvedRequestedPath, (err) => {
-			if (!err) {
-				return
-			}
-
-			if (err.statusCode === 404) {
-				return next()
-			}
-
-			return res.status(err.statusCode || 500).end()
-		})
-	})
+	app.use(express.static(markdownDir))
 
 	const listen = (port) => {
 		io.on("connection", (socket) => {
