@@ -21,8 +21,14 @@ const update = (filepath) => {
 }
 
 const fileServer = (filepath) => {
-	app.use(express.static(path.dirname(path.resolve(filepath))))
+	const resolvedFilepath = path.resolve(filepath)
+	const markdownBasename = path.basename(resolvedFilepath)
+
 	app.use(express.static(path.join(__dirname, "..", "public")))
+
+	app.get(`/${markdownBasename}`, (req, res) => {
+		res.sendFile(resolvedFilepath)
+	})
 
 	app.get("/", (req, res) => {
 		res.sendFile(path.join(__dirname, "..", "index.html"))
@@ -41,11 +47,9 @@ const fileServer = (filepath) => {
 
 			}).on("error", (err) => {
 
-				if (err.errno === -13) {
+				if (err.code === "EACCES") {
 					prints.printError("Permission denied")
-				}
-
-				if (err.errno === -98) {
+				} else if (err.code === "EADDRINUSE") {
 					prints.printError("Port in use")
 				}
 
