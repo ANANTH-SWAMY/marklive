@@ -34,7 +34,16 @@ if (args["_"].length === 0) {
 
 const filepath = args["_"][0]
 
-if (!fs.statSync(filepath).isFile()) {
+let fileStats
+
+try {
+	fileStats = fs.statSync(filepath)
+} catch (err) {
+	prints.printError("Cannot access file")
+	process.exit(1)
+}
+
+if (!fileStats.isFile()) {
 	prints.printError("Not a file")
 	process.exit(1)
 }
