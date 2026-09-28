@@ -10,6 +10,7 @@ const { Server } = require("socket.io")
 const app = express()
 const server = http.createServer(app)
 const io = new Server(server)
+const markdownCache = new Map()
 
 const updateTitle = (filepath) => {
 	io.emit("title", path.basename(filepath))
@@ -17,6 +18,7 @@ const updateTitle = (filepath) => {
 
 const update = (filepath) => {
 	const file = fs.readFileSync(filepath).toString()
+	markdownCache.set(path.resolve(filepath), file)
 	io.emit("update", md.render(file))
 }
 
@@ -24,10 +26,17 @@ const fileServer = (filepath) => {
 	const resolvedFilepath = path.resolve(filepath)
 	const markdownBasename = path.basename(resolvedFilepath)
 
+	try {
+		markdownCache.set(resolvedFilepath, fs.readFileSync(resolvedFilepath).toString())
+	} catch (err) {
+		prints.printError("Cannot access file")
+		process.exit(1)
+	}
+
 	app.use(express.static(path.join(__dirname, "..", "public")))
 
 	app.get(`/${markdownBasename}`, (req, res) => {
-		res.sendFile(resolvedFilepath)
+		res.type("text/markdown").send(markdownCache.get(resolvedFilepath))
 	})
 
 	app.get("/", (req, res) => {
